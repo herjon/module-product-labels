@@ -1,0 +1,7 @@
+Copyright © 2026 Majistar.
+Licensed under the Open Software License version 3.0 (OSL-3.0), see LICENSE
+or https://opensource.org/licenses/osl-3.0.php.
+
+view/frontend/templates/cart/cart-drawer.phtml is a modified copy of a template of
+the Hyvä default theme, copyright © Hyvä Themes, which Hyvä Themes distributes under
+both the OSL 3.0 and the AFL 3.0. It is used here under the OSL 3.0.

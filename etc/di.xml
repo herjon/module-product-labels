@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Majistar\ProductLabels\Api\Data\LabelInterface" type="Majistar\ProductLabels\Model\Label"/>
+    <preference for="Majistar\ProductLabels\Api\Data\AppearanceInterface"
+                type="Majistar\ProductLabels\Model\Label\Appearance"/>
+    <preference for="Majistar\ProductLabels\Api\Data\LabelSearchResultsInterface"
+                type="Majistar\ProductLabels\Model\LabelSearchResults"/>
+    <preference for="Majistar\ProductLabels\Api\LabelRepositoryInterface"
+                type="Majistar\ProductLabels\Model\LabelRepository"/>
+    <preference for="Majistar\ProductLabels\Api\LabelResolverInterface" type="Majistar\ProductLabels\Model\LabelResolver"/>
+    <preference for="Majistar\ProductLabels\Api\ProductLabelAssignmentInterface"
+                type="Majistar\ProductLabels\Model\ProductLabelAssignment"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="majistar_product_label_listing_data_source" xsi:type="string">Majistar\ProductLabels\Model\ResourceModel\Label\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\ResourceModel\Store">
+        <plugin name="majistar_product_labels_invalidate_index"
+                type="Majistar\ProductLabels\Plugin\Store\InvalidateLabelIndex"/>
+    </type>
+    <type name="Majistar\ProductLabels\Model\ResourceModel\Label\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">majistar_product_label</argument>
+            <argument name="resourceModel" xsi:type="string">Majistar\ProductLabels\Model\ResourceModel\Label</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="majistar_product_labels_save" type="Majistar\ProductLabels\Plugin\Catalog\SaveProductLabels"/>
+    </type>
+</config>

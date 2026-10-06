@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="majistar_product_label" resource="default" engine="innodb" comment="Mage Product Label">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="true" comment="Label ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Admin Name"/>
+        <column xsi:type="smallint" name="is_active" unsigned="true" nullable="false" default="1"
+                comment="Is Active"/>
+        <column xsi:type="int" name="priority" unsigned="true" nullable="false" default="0"
+                comment="Priority, lower first"/>
+        <column xsi:type="smallint" name="stop_processing" unsigned="true" nullable="false" default="0"
+                comment="Stop Further Labels"/>
+        <column xsi:type="datetime" name="active_from" nullable="true" comment="Active From (UTC)"/>
+        <column xsi:type="datetime" name="active_to" nullable="true" comment="Active To (UTC)"/>
+        <column xsi:type="varchar" name="show_on" nullable="false" length="64" default="product,listing"
+                comment="Show On"/>
+        <column xsi:type="smallint" name="is_new" unsigned="true" nullable="false" default="0"
+                comment="Filter: Only New Products"/>
+        <column xsi:type="smallint" name="is_on_sale" unsigned="true" nullable="false" default="0"
+                comment="Filter: Only Products on Sale"/>
+        <column xsi:type="smallint" name="min_discount_percent" unsigned="true" nullable="true"
+                comment="Filter: Minimum Discount Percent"/>
+        <column xsi:type="varchar" name="stock_status" nullable="false" length="16" default="any"
+                comment="Filter: Stock Status"/>
+        <column xsi:type="decimal" name="low_stock_qty" scale="4" precision="12" unsigned="false" nullable="true"
+                comment="Filter: Low Stock Below Qty"/>
+        <column xsi:type="text" name="category_ids" nullable="true" comment="Filter: Category IDs"/>
+        <column xsi:type="decimal" name="price_from" scale="6" precision="20" unsigned="false" nullable="true"
+                comment="Filter: Price From"/>
+        <column xsi:type="decimal" name="price_to" scale="6" precision="20" unsigned="false" nullable="true"
+                comment="Filter: Price To"/>
+        <column xsi:type="smallint" name="use_for_parent" unsigned="true" nullable="false" default="0"
+                comment="Also label configurable/grouped parents of matching children"/>
+        <column xsi:type="mediumtext" name="conditions_serialized" nullable="true" comment="Advanced Conditions"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false"
+                default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false"
+                default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+        </constraint>
+        <index referenceId="MAJISTAR_PRODUCT_LABEL_IS_ACTIVE_PRIORITY" indexType="btree">
+            <column name="is_active"/>
+            <column name="priority"/>
+        </index>
+        <index referenceId="MAJISTAR_PRODUCT_LABEL_NAME" indexType="fulltext">
+            <column name="name"/>
+        </index>
+    </table>
+    <table name="majistar_product_label_appearance" resource="default" engine="innodb"
+           comment="Mage Product Label Appearance">
+        <column xsi:type="int" name="appearance_id" unsigned="true" nullable="false" identity="true"
+                comment="Appearance ID"/>
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" comment="Label ID"/>
+        <column xsi:type="varchar" name="context" nullable="false" length="16" comment="product or listing"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="16" default="text" comment="text or image"/>
+        <column xsi:type="varchar" name="text" nullable="true" length="255" comment="Text"/>
+        <column xsi:type="varchar" name="background_color" nullable="true" length="9" comment="Background Color"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="9" comment="Text Color"/>
+        <column xsi:type="varchar" name="shape" nullable="false" length="16" default="rectangle" comment="Shape"/>
+        <column xsi:type="varchar" name="text_size" nullable="false" length="2" default="m" comment="Text Size"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Image File"/>
+        <column xsi:type="varchar" name="image_alt" nullable="true" length="255" comment="Image Alt Text"/>
+        <column xsi:type="smallint" name="width_percent" unsigned="true" nullable="false" default="25"
+                comment="Image Width Percent"/>
+        <column xsi:type="smallint" name="corner_radius" unsigned="true" nullable="false" default="4"
+                comment="Corner Radius (px)"/>
+        <column xsi:type="varchar" name="position" nullable="false" length="16" default="top-left"
+                comment="Position"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="appearance_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="MAJISTAR_PRODUCT_LABEL_APPEARANCE_LABEL_ID_CONTEXT">
+            <column name="label_id"/>
+            <column name="context"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAJISTAR_PRODUCT_LABEL_APPEARANCE_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID"
+                    table="majistar_product_label_appearance" column="label_id" referenceTable="majistar_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+    </table>
+    <table name="majistar_product_label_store" resource="default" engine="innodb" comment="Mage Product Label Store">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" comment="Label ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAJISTAR_PRODUCT_LABEL_STORE_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID"
+                    table="majistar_product_label_store" column="label_id" referenceTable="majistar_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAJISTAR_PRODUCT_LABEL_STORE_STORE_ID_STORE_STORE_ID"
+                    table="majistar_product_label_store" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <index referenceId="MAJISTAR_PRODUCT_LABEL_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="majistar_product_label_customer_group" resource="default" engine="innodb"
+           comment="Mage Product Label Customer Group">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" comment="Label ID"/>
+        <column xsi:type="int" name="customer_group_id" unsigned="true" nullable="false"
+                comment="Customer Group ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+            <column name="customer_group_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="MAJISTAR_PRODUCT_LABEL_CUSTOMER_GROUP_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID"
+                    table="majistar_product_label_customer_group" column="label_id" referenceTable="majistar_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    referenceId="MAJISTAR_PRODUCT_LABEL_CUSTOMER_GROUP_CUSTOMER_GROUP_ID_CUSTOMER_GROUP_CUSTOMER_GROUP_ID"
+                    table="majistar_product_label_customer_group" column="customer_group_id"
+                    referenceTable="customer_group" referenceColumn="customer_group_id" onDelete="CASCADE"/>
+        <index referenceId="MAJISTAR_PRODUCT_LABEL_CUSTOMER_GROUP_CUSTOMER_GROUP_ID" indexType="btree">
+            <column name="customer_group_id"/>
+        </index>
+    </table>
+    <table name="majistar_product_label_product" resource="default" engine="innodb"
+           comment="Mage Product Label Manual Assignment">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" comment="Label ID"/>
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false"
+                comment="Product ID (no FK: entity_id is not unique on Adobe Commerce)"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+            <column name="product_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAJISTAR_PRODUCT_LABEL_PRODUCT_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID"
+                    table="majistar_product_label_product" column="label_id" referenceTable="majistar_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <index referenceId="MAJISTAR_PRODUCT_LABEL_PRODUCT_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+    </table>
+    <table name="majistar_product_label_index" resource="default" engine="innodb"
+           comment="Mage Product Label Index (which products each active label applies to)">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" comment="Label ID"/>
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false" comment="Product ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" comment="Store ID"/>
+        <column xsi:type="smallint" name="manual" unsigned="true" nullable="false" default="0"
+                comment="Assigned by hand (quick filters do not apply)"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+            <column name="product_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAJISTAR_PRODUCT_LABEL_INDEX_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID"
+                    table="majistar_product_label_index" column="label_id" referenceTable="majistar_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <index referenceId="MAJISTAR_PRODUCT_LABEL_INDEX_PRODUCT_ID_STORE_ID" indexType="btree">
+            <column name="product_id"/>
+            <column name="store_id"/>
+        </index>
+    </table>
+</schema>

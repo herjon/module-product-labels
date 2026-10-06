@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/majistar-product-labels/search" method="GET">
+        <service class="Majistar\ProductLabels\Api\LabelRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+    <route url="/V1/majistar-product-labels/:labelId" method="GET">
+        <service class="Majistar\ProductLabels\Api\LabelRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+    <route url="/V1/majistar-product-labels" method="POST">
+        <service class="Majistar\ProductLabels\Api\LabelRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+    <route url="/V1/majistar-product-labels/:labelId" method="PUT">
+        <service class="Majistar\ProductLabels\Api\LabelRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+    <route url="/V1/majistar-product-labels/:labelId" method="DELETE">
+        <service class="Majistar\ProductLabels\Api\LabelRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+
+    <route url="/V1/majistar-product-labels/products/:productId" method="GET">
+        <service class="Majistar\ProductLabels\Api\ProductLabelAssignmentInterface" method="getLabelIds"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+    <!-- productId in the body: the web API cannot map a single array body next to a single URL parameter -->
+    <route url="/V1/majistar-product-labels/products" method="PUT">
+        <service class="Majistar\ProductLabels\Api\ProductLabelAssignmentInterface" method="setLabelIds"/>
+        <resources>
+            <resource ref="Majistar_ProductLabels::labels"/>
+        </resources>
+    </route>
+</routes>

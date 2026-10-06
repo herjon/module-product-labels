@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product_list_item">
+            <arguments>
+                <argument name="additional_item_renderer_processors" xsi:type="array">
+                    <item name="majistar_product_labels_cache_tag"
+                          xsi:type="object">Majistar\ProductLabels\ViewModel\ListItemCacheTag</item>
+                </argument>
+                <!-- Read by Plugin\Catalog\MarkListingImage -->
+                <argument name="majistar_product_labels_area" xsi:type="string">listing</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

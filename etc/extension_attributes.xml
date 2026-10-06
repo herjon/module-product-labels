@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <!-- Ids of the labels assigned by hand; filled only in the web API areas -->
+    <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
+        <attribute code="majistar_product_labels" type="int[]"/>
+    </extension_attributes>
+</config>

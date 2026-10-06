@@ -1,0 +1,74 @@
+<?php
+/**
+ * Badges of one product, drawn over its image (the caller provides a "relative" wrapper).
+ */
+declare(strict_types=1);
+
+use Majistar\ProductLabels\ViewModel\Badges;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+
+/** @var Badges $badges */
+$badges = $block->getData('badges_view_model');
+$product = $block->getData('product');
+$area = (string) $block->getData('badge_area');
+if (!$badges || !$product || $area === '') {
+    return;
+}
+
+$groups = $badges->groupByPosition($badges->getBadges($product, $area));
+$switching = $badges->hasVariantSwitching($product, $area);
+$variants = $switching ? $badges->getChildrenGroups($product, $area) : [];
+if (!$groups && !$variants) {
+    return;
+}
+?>
+<?php if ($switching): ?>
+<div x-data="initMajistarProductLabels"
+     data-product-id="<?= (int) $product->getId() ?>"
+     data-attribute-count="<?= (int) $badges->getVariantAttributeCount($product) ?>"
+     data-variants="<?= $escaper->escapeHtmlAttr((string) json_encode((object) $variants)) ?>"
+     @configurable-selection-changed.window="onSelectionChanged"
+     @listing-configurable-selection-changed.window="onSelectionChanged"
+>
+    <div x-show="showParent">
+<?php endif; ?>
+<?php foreach ($groups as $position => $views): ?>
+    <div class="<?= $escaper->escapeHtmlAttr($badges->getContainerClasses($position, $area)) ?>">
+        <?php foreach ($views as $view): ?>
+            <?php if ($badges->isImage($view)): ?>
+                <img src="<?= $escaper->escapeUrl($view->getImageUrl()) ?>"
+                     alt="<?= $escaper->escapeHtmlAttr((string) $view->getImageAlt()) ?>"
+                     style="<?= $escaper->escapeHtmlAttr($badges->getStyle($view)) ?>"
+                     loading="lazy">
+            <?php else: ?>
+                <span class="<?= $escaper->escapeHtmlAttr($badges->getTextClasses($view)) ?>"
+                      style="<?= $escaper->escapeHtmlAttr($badges->getStyle($view)) ?>">
+                    <?= $escaper->escapeHtml((string) $view->getText()) ?>
+                </span>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endforeach; ?>
+<?php if ($switching): ?>
+    </div>
+    <?php /* Badges of the chosen variant (Badges::toGroups): keep the markup in sync with the above */ ?>
+    <template x-for="group in variantGroups">
+        <div :class="group.class">
+            <template x-for="badge in group.badges">
+                <span class="contents">
+                    <template x-if="badge.is_image">
+                        <img :src="badge.image" :alt="badge.alt" :style="badge.style" loading="lazy">
+                    </template>
+                    <template x-if="badge.is_text">
+                        <span :class="badge.class" :style="badge.style" x-text="badge.text"></span>
+                    </template>
+                </span>
+            </template>
+        </div>
+    </template>
+</div>
+<?php endif; ?>

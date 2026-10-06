@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="catalog">
+            <group id="majistar_product_labels" translate="label" type="text" sortOrder="900" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Product Labels</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="max_labels" translate="label comment" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Max Labels per Product</label>
+                    <comment>Labels beyond this number are not shown, starting from the lowest priority.</comment>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="new_source" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>"New" Means</label>
+                    <comment>Used by the "Only New Products" filter of the labels.</comment>
+                    <source_model>Majistar\ProductLabels\Model\Source\NewSource</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="new_days" translate="label" type="text" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>New for (Days)</label>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="new_source">created_days</field>
+                    </depends>
+                </field>
+                <field id="out_of_stock_only" translate="label comment" type="select" sortOrder="50"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Out of Stock Products Show Only Out-of-Stock Labels</label>
+                    <comment>When a product is out of stock, only labels whose stock filter is "Out of stock" are shown.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

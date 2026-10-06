@@ -1,0 +1,52 @@
+<?php
+/**
+ * Variant badges of badges.phtml, only for a complete selection (Hyvä's productIndex guesses earlier).
+ */
+declare(strict_types=1);
+
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var HyvaCsp $hyvaCsp */
+?>
+<script>
+    function initMajistarProductLabels() {
+        return {
+            productId: 0,
+            attributeCount: 0,
+            variants: {},
+            variantId: null,
+            init() {
+                this.productId = parseInt(this.$el.dataset.productId, 10);
+                this.attributeCount = parseInt(this.$el.dataset.attributeCount, 10) || 0;
+                try {
+                    this.variants = JSON.parse(this.$el.dataset.variants || '{}');
+                } catch (e) {
+                    this.variants = {};
+                }
+            },
+            onSelectionChanged(event) {
+                const detail = (event || this.$event).detail || {};
+                if (parseInt(detail.productId, 10) !== this.productId) {
+                    return;
+                }
+                const selected = detail.selectedValues || {};
+                const chosen = Object.keys(selected).filter(attributeId => selected[attributeId]).length;
+                const complete = this.attributeCount > 0 && chosen >= this.attributeCount;
+                this.variantId = complete && detail.productIndex ? String(detail.productIndex) : null;
+            },
+            showParent() {
+                return this.variantId === null;
+            },
+            variantGroups() {
+                return this.variantId === null ? [] : (this.variants[this.variantId] || []);
+            }
+        };
+    }
+
+    window.addEventListener(
+        'alpine:init',
+        () => Alpine.data('initMajistarProductLabels', initMajistarProductLabels),
+        {once: true}
+    );
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>

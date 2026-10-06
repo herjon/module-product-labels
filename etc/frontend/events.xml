@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="hyva_config_generate_before">
+        <observer name="majistar_product_labels_register_tailwind_sources"
+                  instance="Majistar\ProductLabels\Observer\RegisterTailwindSources"/>
+    </event>
+    <event name="catalog_block_product_list_collection">
+        <observer name="majistar_product_labels_prefetch" instance="Majistar\ProductLabels\Observer\PrefetchListingBadges"/>
+    </event>
+    <event name="majistar_checkout_summary_item">
+        <observer name="majistar_product_labels_checkout_item" instance="Majistar\ProductLabels\Observer\AddCheckoutItemLabels"/>
+    </event>
+</config>

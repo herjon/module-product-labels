@@ -1,0 +1,1145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">majistar_product_label_form.majistar_product_label_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Product Label</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back">
+                <url path="*/*/"/>
+                <class>back</class>
+                <label translate="true">Back</label>
+            </button>
+            <button name="delete" class="Majistar\ProductLabels\Block\Adminhtml\Label\Edit\DeleteButton"/>
+            <button name="save_and_continue" class="Majistar\ProductLabels\Block\Adminhtml\Label\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Majistar\ProductLabels\Block\Adminhtml\Label\Edit\SaveButton"/>
+        </buttons>
+        <namespace>majistar_product_label_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>majistar_product_label_form.majistar_product_label_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="majistar_product_label_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="majistar_productlabels/label/save"/>
+        </settings>
+        <dataProvider class="Majistar\ProductLabels\Ui\DataProvider\LabelFormDataProvider"
+                      name="majistar_product_label_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>label_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="general" sortOrder="10">
+        <settings>
+            <label translate="true">General</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="label_id" formElement="input" sortOrder="0">
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+            </settings>
+        </field>
+        <field name="name" formElement="input" sortOrder="10">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="max_text_length" xsi:type="number">255</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+                <notice translate="true">Admin only, never shown to customers.</notice>
+            </settings>
+        </field>
+        <field name="is_active" formElement="checkbox" sortOrder="20">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Active</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="store_ids" formElement="multiselect" sortOrder="30">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>int</dataType>
+                <label translate="true">Store Views</label>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Majistar\ProductLabels\Model\Source\StoreViews"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+        <field name="customer_group_ids" formElement="multiselect" sortOrder="40">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>int</dataType>
+                <label translate="true">Customer Groups</label>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\CatalogRule\Model\Rule\CustomerGroupsOptionsProvider"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+        <field name="priority" formElement="input" sortOrder="50">
+            <settings>
+                <validation>
+                    <rule name="validate-digits" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Priority</label>
+                <notice translate="true">Lower numbers are shown first.</notice>
+            </settings>
+        </field>
+        <field name="stop_processing" formElement="checkbox" sortOrder="60">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Stop Further Labels</label>
+                <notice translate="true">When this label applies, labels with a higher priority number are not shown.</notice>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="active_from" formElement="date" sortOrder="70">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Active From</label>
+                <notice translate="true">Optional. Store time zone.</notice>
+            </settings>
+        </field>
+        <field name="active_to" formElement="date" sortOrder="80">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Active To</label>
+                <notice translate="true">Optional. Store time zone.</notice>
+            </settings>
+        </field>
+        <field name="show_on" formElement="multiselect" sortOrder="90">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Show On</label>
+                <notice translate="true">Hold Ctrl (Cmd on Mac) to select more than one.</notice>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Majistar\ProductLabels\Model\Source\ShowOn"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <fieldset name="product_appearance" sortOrder="20">
+        <settings>
+            <label translate="true">Appearance on Product Page</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+            <dataScope>product_appearance</dataScope>
+        </settings>
+        <field name="type" formElement="select" sortOrder="10">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Type</label>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>text</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.product_appearance.text_options</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">true</param>
+                                    </params>
+                                </action>
+                                <action name="1">
+                                    <target>majistar_product_label_form.majistar_product_label_form.product_appearance.image_options</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>image</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.product_appearance.text_options</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                                <action name="1">
+                                    <target>majistar_product_label_form.majistar_product_label_form.product_appearance.image_options</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">true</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Majistar\ProductLabels\Model\Source\Type"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <fieldset name="text_options" sortOrder="20">
+            <settings>
+                <label/>
+                <collapsible>false</collapsible>
+            </settings>
+            <field name="text" formElement="input" sortOrder="10">
+                <settings>
+                    <validation>
+                        <rule name="max_text_length" xsi:type="number">255</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Text</label>
+                    <notice translate="true">Variables: {SAVE_PERCENT}, {SAVE_AMOUNT}, {PRICE}, {SPECIAL_PRICE}, {STOCK_QTY}, {SKU}, {ATTR:code}.</notice>
+                </settings>
+            </field>
+            <field name="insert_variable" component="Majistar_ProductLabels/js/form/element/insert-variable"
+                   formElement="select" sortOrder="20">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Insert Variable</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\Variable"/>
+                            <caption translate="true">-- Choose a variable --</caption>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <colorPicker name="background_color" sortOrder="30">
+                <settings>
+                    <dataScope>background_color</dataScope>
+                    <label translate="true">Background Color</label>
+                    <colorPickerMode>full</colorPickerMode>
+                    <colorFormat>hex</colorFormat>
+                </settings>
+            </colorPicker>
+            <colorPicker name="text_color" sortOrder="40">
+                <settings>
+                    <dataScope>text_color</dataScope>
+                    <label translate="true">Text Color</label>
+                    <colorPickerMode>full</colorPickerMode>
+                    <colorFormat>hex</colorFormat>
+                </settings>
+            </colorPicker>
+            <field name="shape" formElement="select" sortOrder="50">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Shape</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\Shape"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <field name="text_size" formElement="select" sortOrder="60">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Text Size</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\TextSize"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+        </fieldset>
+        <fieldset name="image_options" sortOrder="30">
+            <settings>
+                <label/>
+                <collapsible>false</collapsible>
+            </settings>
+            <field name="image" formElement="fileUploader" sortOrder="10">
+                <settings>
+                    <dataType>string</dataType>
+                    <label translate="true">Image</label>
+                    <notice translate="true">JPG, PNG, GIF, WebP or AVIF, up to 2 MB.</notice>
+                </settings>
+                <formElements>
+                    <fileUploader>
+                        <settings>
+                            <allowedExtensions>jpg jpeg png gif webp avif</allowedExtensions>
+                            <maxFileSize>2097152</maxFileSize>
+                            <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                            <uploaderConfig>
+                                <param xsi:type="url" name="url" path="majistar_productlabels/label_image/upload"/>
+                            </uploaderConfig>
+                        </settings>
+                    </fileUploader>
+                </formElements>
+            </field>
+            <field name="image_alt" formElement="input" sortOrder="20">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Image Alt Text</label>
+                </settings>
+            </field>
+            <field name="width_percent" formElement="input" sortOrder="30">
+                <settings>
+                    <validation>
+                        <rule name="validate-digits" xsi:type="boolean">true</rule>
+                        <rule name="validate-number-range" xsi:type="string">5-100</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Width</label>
+                    <addAfter>%</addAfter>
+                    <notice translate="true">Percentage of the product image width.</notice>
+                </settings>
+            </field>
+        </fieldset>
+        <field name="corner_radius" formElement="input" sortOrder="35">
+            <settings>
+                <validation>
+                    <rule name="validate-digits" xsi:type="boolean">true</rule>
+                    <rule name="validate-number-range" xsi:type="string">0-50</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Corner Radius</label>
+                <addAfter>px</addAfter>
+                <notice translate="true">Rectangle and image labels. Pill and circle labels are always round.</notice>
+            </settings>
+        </field>
+        <field name="position" formElement="select" sortOrder="40">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Position</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Majistar\ProductLabels\Model\Source\Position"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <fieldset name="listing_appearance" sortOrder="30">
+        <settings>
+            <label translate="true">Appearance in Product Listings</label>
+            <collapsible>true</collapsible>
+            <opened>false</opened>
+            <dataScope>listing_appearance</dataScope>
+        </settings>
+        <field name="use_product" formElement="checkbox" sortOrder="10">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Use Product Page Appearance</label>
+                <notice translate="true">Turn off to give listings their own appearance, for example a different image.</notice>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.listing_appearance.custom</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.listing_appearance.custom</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">true</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <fieldset name="custom" sortOrder="20">
+            <settings>
+                <label/>
+                <collapsible>false</collapsible>
+            </settings>
+            <field name="type" formElement="select" sortOrder="10">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Type</label>
+                    <switcherConfig>
+                        <rules>
+                            <rule name="0">
+                                <value>text</value>
+                                <actions>
+                                    <action name="0">
+                                        <target>majistar_product_label_form.majistar_product_label_form.listing_appearance.custom.text_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">true</param>
+                                        </params>
+                                    </action>
+                                    <action name="1">
+                                        <target>majistar_product_label_form.majistar_product_label_form.listing_appearance.custom.image_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">false</param>
+                                        </params>
+                                    </action>
+                                </actions>
+                            </rule>
+                            <rule name="1">
+                                <value>image</value>
+                                <actions>
+                                    <action name="0">
+                                        <target>majistar_product_label_form.majistar_product_label_form.listing_appearance.custom.text_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">false</param>
+                                        </params>
+                                    </action>
+                                    <action name="1">
+                                        <target>majistar_product_label_form.majistar_product_label_form.listing_appearance.custom.image_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">true</param>
+                                        </params>
+                                    </action>
+                                </actions>
+                            </rule>
+                        </rules>
+                        <enabled>true</enabled>
+                    </switcherConfig>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\Type"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <fieldset name="text_options" sortOrder="20">
+                <settings>
+                    <label/>
+                    <collapsible>false</collapsible>
+                </settings>
+                <field name="text" formElement="input" sortOrder="10">
+                    <settings>
+                        <validation>
+                            <rule name="max_text_length" xsi:type="number">255</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Text</label>
+                        <notice translate="true">Variables: {SAVE_PERCENT}, {SAVE_AMOUNT}, {PRICE}, {SPECIAL_PRICE}, {STOCK_QTY}, {SKU}, {ATTR:code}.</notice>
+                    </settings>
+                </field>
+                <field name="insert_variable" component="Majistar_ProductLabels/js/form/element/insert-variable"
+                       formElement="select" sortOrder="20">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Insert Variable</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Majistar\ProductLabels\Model\Source\Variable"/>
+                                <caption translate="true">-- Choose a variable --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <colorPicker name="background_color" sortOrder="30">
+                    <settings>
+                        <dataScope>background_color</dataScope>
+                    <label translate="true">Background Color</label>
+                        <colorPickerMode>full</colorPickerMode>
+                        <colorFormat>hex</colorFormat>
+                    </settings>
+                </colorPicker>
+                <colorPicker name="text_color" sortOrder="40">
+                    <settings>
+                        <dataScope>text_color</dataScope>
+                    <label translate="true">Text Color</label>
+                        <colorPickerMode>full</colorPickerMode>
+                        <colorFormat>hex</colorFormat>
+                    </settings>
+                </colorPicker>
+                <field name="shape" formElement="select" sortOrder="50">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Shape</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Majistar\ProductLabels\Model\Source\Shape"/>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <field name="text_size" formElement="select" sortOrder="60">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Text Size</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Majistar\ProductLabels\Model\Source\TextSize"/>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+            <fieldset name="image_options" sortOrder="30">
+                <settings>
+                    <label/>
+                    <collapsible>false</collapsible>
+                </settings>
+                <field name="image" formElement="fileUploader" sortOrder="10">
+                    <settings>
+                        <dataType>string</dataType>
+                        <label translate="true">Image</label>
+                        <notice translate="true">JPG, PNG, GIF, WebP or AVIF, up to 2 MB.</notice>
+                    </settings>
+                    <formElements>
+                        <fileUploader>
+                            <settings>
+                                <allowedExtensions>jpg jpeg png gif webp avif</allowedExtensions>
+                                <maxFileSize>2097152</maxFileSize>
+                                <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                                <uploaderConfig>
+                                    <param xsi:type="url" name="url" path="majistar_productlabels/label_image/upload"/>
+                                </uploaderConfig>
+                            </settings>
+                        </fileUploader>
+                    </formElements>
+                </field>
+                <field name="image_alt" formElement="input" sortOrder="20">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Image Alt Text</label>
+                    </settings>
+                </field>
+                <field name="width_percent" formElement="input" sortOrder="30">
+                    <settings>
+                        <validation>
+                            <rule name="validate-digits" xsi:type="boolean">true</rule>
+                            <rule name="validate-number-range" xsi:type="string">5-100</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Width</label>
+                        <addAfter>%</addAfter>
+                        <notice translate="true">Percentage of the product image width.</notice>
+                    </settings>
+                </field>
+            </fieldset>
+            <field name="corner_radius" formElement="input" sortOrder="35">
+                <settings>
+                    <validation>
+                        <rule name="validate-digits" xsi:type="boolean">true</rule>
+                        <rule name="validate-number-range" xsi:type="string">0-50</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Corner Radius</label>
+                    <addAfter>px</addAfter>
+                    <notice translate="true">Rectangle and image labels. Pill and circle labels are always round.</notice>
+                </settings>
+            </field>
+            <field name="position" formElement="select" sortOrder="40">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Position</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\Position"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+        </fieldset>
+    </fieldset>
+
+    <fieldset name="cart_appearance" sortOrder="40">
+        <settings>
+            <label translate="true">Appearance in Cart, Mini-cart and Checkout</label>
+            <collapsible>true</collapsible>
+            <opened>false</opened>
+            <dataScope>cart_appearance</dataScope>
+        </settings>
+        <field name="use_listing" formElement="checkbox" sortOrder="10">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Use Product Listing Appearance</label>
+                <notice translate="true">Turn off to give the cart, mini-cart and checkout their own appearance, for example a smaller badge. Where it is shown is chosen in "Show On".</notice>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.cart_appearance.custom</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.cart_appearance.custom</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">true</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <fieldset name="custom" sortOrder="20">
+            <settings>
+                <label/>
+                <collapsible>false</collapsible>
+            </settings>
+            <field name="type" formElement="select" sortOrder="10">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Type</label>
+                    <switcherConfig>
+                        <rules>
+                            <rule name="0">
+                                <value>text</value>
+                                <actions>
+                                    <action name="0">
+                                        <target>majistar_product_label_form.majistar_product_label_form.cart_appearance.custom.text_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">true</param>
+                                        </params>
+                                    </action>
+                                    <action name="1">
+                                        <target>majistar_product_label_form.majistar_product_label_form.cart_appearance.custom.image_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">false</param>
+                                        </params>
+                                    </action>
+                                </actions>
+                            </rule>
+                            <rule name="1">
+                                <value>image</value>
+                                <actions>
+                                    <action name="0">
+                                        <target>majistar_product_label_form.majistar_product_label_form.cart_appearance.custom.text_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">false</param>
+                                        </params>
+                                    </action>
+                                    <action name="1">
+                                        <target>majistar_product_label_form.majistar_product_label_form.cart_appearance.custom.image_options</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">true</param>
+                                        </params>
+                                    </action>
+                                </actions>
+                            </rule>
+                        </rules>
+                        <enabled>true</enabled>
+                    </switcherConfig>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\Type"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <fieldset name="text_options" sortOrder="20">
+                <settings>
+                    <label/>
+                    <collapsible>false</collapsible>
+                </settings>
+                <field name="text" formElement="input" sortOrder="10">
+                    <settings>
+                        <validation>
+                            <rule name="max_text_length" xsi:type="number">255</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Text</label>
+                        <notice translate="true">Variables: {SAVE_PERCENT}, {SAVE_AMOUNT}, {PRICE}, {SPECIAL_PRICE}, {STOCK_QTY}, {SKU}, {ATTR:code}.</notice>
+                    </settings>
+                </field>
+                <field name="insert_variable" component="Majistar_ProductLabels/js/form/element/insert-variable"
+                       formElement="select" sortOrder="20">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Insert Variable</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Majistar\ProductLabels\Model\Source\Variable"/>
+                                <caption translate="true">-- Choose a variable --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <colorPicker name="background_color" sortOrder="30">
+                    <settings>
+                        <dataScope>background_color</dataScope>
+                    <label translate="true">Background Color</label>
+                        <colorPickerMode>full</colorPickerMode>
+                        <colorFormat>hex</colorFormat>
+                    </settings>
+                </colorPicker>
+                <colorPicker name="text_color" sortOrder="40">
+                    <settings>
+                        <dataScope>text_color</dataScope>
+                    <label translate="true">Text Color</label>
+                        <colorPickerMode>full</colorPickerMode>
+                        <colorFormat>hex</colorFormat>
+                    </settings>
+                </colorPicker>
+                <field name="shape" formElement="select" sortOrder="50">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Shape</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Majistar\ProductLabels\Model\Source\Shape"/>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <field name="text_size" formElement="select" sortOrder="60">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Text Size</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Majistar\ProductLabels\Model\Source\TextSize"/>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+            <fieldset name="image_options" sortOrder="30">
+                <settings>
+                    <label/>
+                    <collapsible>false</collapsible>
+                </settings>
+                <field name="image" formElement="fileUploader" sortOrder="10">
+                    <settings>
+                        <dataType>string</dataType>
+                        <label translate="true">Image</label>
+                        <notice translate="true">JPG, PNG, GIF, WebP or AVIF, up to 2 MB.</notice>
+                    </settings>
+                    <formElements>
+                        <fileUploader>
+                            <settings>
+                                <allowedExtensions>jpg jpeg png gif webp avif</allowedExtensions>
+                                <maxFileSize>2097152</maxFileSize>
+                                <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                                <uploaderConfig>
+                                    <param xsi:type="url" name="url" path="majistar_productlabels/label_image/upload"/>
+                                </uploaderConfig>
+                            </settings>
+                        </fileUploader>
+                    </formElements>
+                </field>
+                <field name="image_alt" formElement="input" sortOrder="20">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Image Alt Text</label>
+                    </settings>
+                </field>
+                <field name="width_percent" formElement="input" sortOrder="30">
+                    <settings>
+                        <validation>
+                            <rule name="validate-digits" xsi:type="boolean">true</rule>
+                            <rule name="validate-number-range" xsi:type="string">5-100</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Width</label>
+                        <addAfter>%</addAfter>
+                        <notice translate="true">Percentage of the product image width.</notice>
+                    </settings>
+                </field>
+            </fieldset>
+            <field name="corner_radius" formElement="input" sortOrder="35">
+                <settings>
+                    <validation>
+                        <rule name="validate-digits" xsi:type="boolean">true</rule>
+                        <rule name="validate-number-range" xsi:type="string">0-50</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Corner Radius</label>
+                    <addAfter>px</addAfter>
+                    <notice translate="true">Rectangle and image labels. Pill and circle labels are always round.</notice>
+                </settings>
+            </field>
+            <field name="position" formElement="select" sortOrder="40">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Position</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Majistar\ProductLabels\Model\Source\Position"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+        </fieldset>
+    </fieldset>
+
+    <fieldset name="products" sortOrder="50">
+        <settings>
+            <label translate="true">Which Products</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="is_new" formElement="checkbox" sortOrder="10">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Only New Products</label>
+                <notice translate="true">"New" is defined in Stores > Configuration > Catalog > Catalog > Product Labels.</notice>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="is_on_sale" formElement="checkbox" sortOrder="20">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Only Products on Sale</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="min_discount_percent" formElement="input" sortOrder="30">
+            <settings>
+                <validation>
+                    <rule name="validate-digits" xsi:type="boolean">true</rule>
+                    <rule name="validate-number-range" xsi:type="string">0-100</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Minimum Discount</label>
+                <addAfter>%</addAfter>
+                <imports>
+                    <link name="visible">${ $.parentName }.is_on_sale:checked</link>
+                </imports>
+            </settings>
+        </field>
+        <field name="stock_status" formElement="select" sortOrder="40">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Stock</label>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>any</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.products.low_stock_qty</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>in_stock</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.products.low_stock_qty</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>out_of_stock</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.products.low_stock_qty</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">false</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="3">
+                            <value>low_stock</value>
+                            <actions>
+                                <action name="0">
+                                    <target>majistar_product_label_form.majistar_product_label_form.products.low_stock_qty</target>
+                                    <callback>visible</callback>
+                                    <params>
+                                        <param name="0" xsi:type="boolean">true</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Majistar\ProductLabels\Model\Source\StockStatus"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="low_stock_qty" formElement="input" sortOrder="50">
+            <settings>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Low Stock Below Qty</label>
+            </settings>
+        </field>
+        <field name="category_ids" component="Magento_Catalog/js/components/new-category" formElement="select"
+               sortOrder="60">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">true</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="chipsEnabled" xsi:type="boolean">true</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                    <item name="openLevelsAction" xsi:type="boolean">true</item>
+                    <item name="closeBtn" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <dataType>text</dataType>
+                <label translate="true">Categories</label>
+                <notice translate="true">The product must be in at least one of these categories. Leave empty for any category.</notice>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Catalog\Ui\Component\Product\Form\Categories\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="price_from" formElement="input" sortOrder="70">
+            <settings>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Price From</label>
+                <notice translate="true">Final price of the product. Leave empty for no minimum.</notice>
+            </settings>
+        </field>
+        <field name="price_to" formElement="input" sortOrder="80">
+            <settings>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Price To</label>
+                <notice translate="true">Leave empty for no maximum.</notice>
+            </settings>
+        </field>
+        <field name="use_for_parent" formElement="checkbox" sortOrder="90">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Use for Parent</label>
+                <notice translate="true">Also show the label on configurable and grouped products when one of their children matches.</notice>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="string">0</map>
+                            <map name="true" xsi:type="string">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <fieldset name="conditions" sortOrder="60">
+        <settings>
+            <label translate="true">Advanced Conditions</label>
+            <collapsible>true</collapsible>
+            <opened>false</opened>
+        </settings>
+        <container name="conditions_container" sortOrder="10">
+            <htmlContent name="conditions_html">
+                <block name="majistar_product_label_conditions"
+                       class="Majistar\ProductLabels\Block\Adminhtml\Label\Edit\Conditions"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+
+    <fieldset name="assigned_products" sortOrder="70">
+        <settings>
+            <label translate="true">Manually Assigned Products</label>
+            <collapsible>true</collapsible>
+            <opened>false</opened>
+        </settings>
+        <container name="assigned_products_container" sortOrder="10">
+            <htmlContent name="assigned_products_html">
+                <block name="majistar_product_label_assigned_products"
+                       class="Majistar\ProductLabels\Block\Adminhtml\Label\Edit\AssignedProducts"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+</form>

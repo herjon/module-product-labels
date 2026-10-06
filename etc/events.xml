@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_delete_after_done">
+        <observer name="majistar_product_labels_delete_assignments"
+                  instance="Majistar\ProductLabels\Observer\DeleteProductAssignments"/>
+    </event>
+    <event name="majistar_product_label_save_commit_after">
+        <observer name="majistar_product_labels_reindex_label" instance="Majistar\ProductLabels\Observer\ReindexLabel"/>
+    </event>
+    <event name="majistar_product_label_delete_commit_after">
+        <observer name="majistar_product_labels_reindex_label" instance="Majistar\ProductLabels\Observer\ReindexLabel"/>
+    </event>
+    <event name="catalog_product_save_commit_after">
+        <observer name="majistar_product_labels_reindex_product" instance="Majistar\ProductLabels\Observer\ReindexProducts"/>
+    </event>
+    <event name="catalog_category_change_products">
+        <observer name="majistar_product_labels_reindex_category_products"
+                  instance="Majistar\ProductLabels\Observer\ReindexProducts"/>
+    </event>
+    <event name="catalog_category_save_after">
+        <observer name="majistar_product_labels_invalidate_index"
+                  instance="Majistar\ProductLabels\Observer\InvalidateIndexOnCategoryTreeChange"/>
+    </event>
+    <event name="catalog_category_move_after">
+        <observer name="majistar_product_labels_invalidate_index"
+                  instance="Majistar\ProductLabels\Observer\InvalidateIndexOnCategoryTreeChange"/>
+    </event>
+    <event name="majistar_product_labels_assignment_save_after">
+        <observer name="majistar_product_labels_reindex_assignment" instance="Majistar\ProductLabels\Observer\ReindexProducts"/>
+    </event>
+</config>

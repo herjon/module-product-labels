@@ -1,0 +1,118 @@
+{
+    "majistar_product_label": {
+        "column": {
+            "label_id": true,
+            "name": true,
+            "is_active": true,
+            "priority": true,
+            "stop_processing": true,
+            "active_from": true,
+            "active_to": true,
+            "show_on": true,
+            "is_new": true,
+            "is_on_sale": true,
+            "min_discount_percent": true,
+            "stock_status": true,
+            "low_stock_qty": true,
+            "category_ids": true,
+            "price_from": true,
+            "price_to": true,
+            "conditions_serialized": true,
+            "created_at": true,
+            "updated_at": true,
+            "use_for_parent": true
+        },
+        "index": {
+            "MAJISTAR_PRODUCT_LABEL_IS_ACTIVE_PRIORITY": true,
+            "MAJISTAR_PRODUCT_LABEL_NAME": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "majistar_product_label_appearance": {
+        "column": {
+            "appearance_id": true,
+            "label_id": true,
+            "context": true,
+            "type": true,
+            "text": true,
+            "background_color": true,
+            "text_color": true,
+            "shape": true,
+            "text_size": true,
+            "image": true,
+            "image_alt": true,
+            "width_percent": true,
+            "position": true,
+            "corner_radius": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAJISTAR_PRODUCT_LABEL_APPEARANCE_LABEL_ID_CONTEXT": true,
+            "MAGE_PRD_LBL_APPEARANCE_LBL_ID_MAGE_PRD_LBL_LBL_ID": true,
+            "MAJISTAR_PRD_LBL_APPEARANCE_LBL_ID_MAJISTAR_PRD_LBL_LBL_ID": true
+        }
+    },
+    "majistar_product_label_store": {
+        "column": {
+            "label_id": true,
+            "store_id": true
+        },
+        "index": {
+            "MAJISTAR_PRODUCT_LABEL_STORE_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAJISTAR_PRODUCT_LABEL_STORE_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID": true,
+            "MAJISTAR_PRODUCT_LABEL_STORE_STORE_ID_STORE_STORE_ID": true,
+            "MAJISTAR_PRD_LBL_STORE_LBL_ID_MAJISTAR_PRD_LBL_LBL_ID": true
+        }
+    },
+    "majistar_product_label_customer_group": {
+        "column": {
+            "label_id": true,
+            "customer_group_id": true
+        },
+        "index": {
+            "MAJISTAR_PRODUCT_LABEL_CUSTOMER_GROUP_CUSTOMER_GROUP_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGE_PRD_LBL_CSTR_GROUP_LBL_ID_MAGE_PRD_LBL_LBL_ID": true,
+            "MAGE_PRD_LBL_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID": true,
+            "MAJISTAR_PRD_LBL_CSTR_GROUP_LBL_ID_MAJISTAR_PRD_LBL_LBL_ID": true,
+            "FK_729D02D08B5BED7005C6931D818A9DB1": true
+        }
+    },
+    "majistar_product_label_product": {
+        "column": {
+            "label_id": true,
+            "product_id": true
+        },
+        "index": {
+            "MAJISTAR_PRODUCT_LABEL_PRODUCT_PRODUCT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAJISTAR_PRODUCT_LABEL_PRODUCT_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID": true,
+            "MAJISTAR_PRD_LBL_PRD_LBL_ID_MAJISTAR_PRD_LBL_LBL_ID": true
+        }
+    },
+    "majistar_product_label_index": {
+        "column": {
+            "label_id": true,
+            "product_id": true,
+            "store_id": true,
+            "manual": true
+        },
+        "index": {
+            "MAJISTAR_PRODUCT_LABEL_INDEX_PRODUCT_ID_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAJISTAR_PRODUCT_LABEL_INDEX_LABEL_ID_MAJISTAR_PRODUCT_LABEL_LABEL_ID": true,
+            "MAJISTAR_PRD_LBL_IDX_LBL_ID_MAJISTAR_PRD_LBL_LBL_ID": true
+        }
+    }
+}

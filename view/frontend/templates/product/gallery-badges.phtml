@@ -1,0 +1,16 @@
+<?php
+/**
+ * Badges over the main image of the product page (Hyvä gallery slot "gallery.additional").
+ */
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\CurrentProduct;
+use Majistar\ProductLabels\Api\Data\LabelInterface;
+use Majistar\ProductLabels\ViewModel\Badges;
+
+/** @var ViewModelRegistry $viewModels */
+
+$product = $viewModels->require(CurrentProduct::class)->get();
+?>
+<?= /* @noEscape */ $viewModels->require(Badges::class)->renderBadges($product, LabelInterface::SHOW_ON_PRODUCT) ?>

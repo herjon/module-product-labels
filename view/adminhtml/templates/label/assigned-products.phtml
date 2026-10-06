@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var \Majistar\ProductLabels\Block\Adminhtml\Label\Edit\AssignedProducts $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$products = $block->getProducts();
+$total = $block->getTotal();
+?>
+<div class="majistar-product-labels-assigned">
+    <?php if (!$products): ?>
+        <p>
+            <?= $escaper->escapeHtml(
+                __('No products are assigned manually.')
+                . ' ' . __('Assign this label from the "Product Labels" section of a product.')
+            ) ?>
+        </p>
+    <?php else: ?>
+        <table class="data-grid">
+            <thead>
+            <tr>
+                <th class="data-grid-th"><?= $escaper->escapeHtml(__('ID')) ?></th>
+                <th class="data-grid-th"><?= $escaper->escapeHtml(__('SKU')) ?></th>
+                <th class="data-grid-th"><?= $escaper->escapeHtml(__('Name')) ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($products as $product): ?>
+                <tr>
+                    <td><?= (int) $product['id'] ?></td>
+                    <td>
+                        <a href="<?= $escaper->escapeUrl($product['url']) ?>">
+                            <?= $escaper->escapeHtml($product['sku']) ?>
+                        </a>
+                    </td>
+                    <td><?= $escaper->escapeHtml($product['name']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php if ($total > count($products)): ?>
+            <p><?= $escaper->escapeHtml(__('Showing %1 of %2 products.', count($products), $total)) ?></p>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>

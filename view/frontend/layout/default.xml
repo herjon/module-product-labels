@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Copy of Hyvä's cart drawer with badges (see the template header) -->
+        <referenceBlock name="cart-drawer">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Majistar_ProductLabels::cart/cart-drawer.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block class="Majistar\ProductLabels\Block\CacheTag" name="majistar.product.labels.cache.tag"/>
+            <block name="majistar.product.labels.js" template="Majistar_ProductLabels::js/badges-component.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

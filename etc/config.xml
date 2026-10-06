@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <catalog>
+            <majistar_product_labels>
+                <enabled>1</enabled>
+                <max_labels>2</max_labels>
+                <new_source>news_dates</new_source>
+                <new_days>30</new_days>
+                <out_of_stock_only>1</out_of_stock_only>
+            </majistar_product_labels>
+        </catalog>
+    </default>
+</config>
